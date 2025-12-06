@@ -28,8 +28,6 @@ public class Plugin : Plugin<Config>
 	{
 		Main = this;
         CustomHandlersManager.RegisterEventsHandler(Events);
-		if (Config.GatesEnabled == false)
-			TeslaGateController.Singleton.enabled = false;
     }
 
     public override void Disable()
@@ -37,4 +35,5 @@ public class Plugin : Plugin<Config>
 		Main = null;
 		CustomHandlersManager.UnregisterEventsHandler(Events);
 	}
+
 }
