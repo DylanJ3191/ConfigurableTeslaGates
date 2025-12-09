@@ -1,5 +1,6 @@
 ﻿using LabApi.Events.Arguments.PlayerEvents;
 using LabApi.Events.CustomHandlers;
+using System;
 
 namespace ConfigurableTeslaGates;
 
@@ -11,9 +12,13 @@ public class EventHandlers : CustomEventsHandler
             return;
 
         if (Plugin.Main.Config.GatesEnabled == false)
+        {
             args.IsAllowed = false;
+            return;
+        }
 
-        if (Plugin.Main.Config.RoleList.Contains(args.Player.Role.ToString()))
+        var immuneRoles = Plugin.Main.Config.RoleList.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (Array.Exists(immuneRoles, r => r.Equals(args.Player.Role.ToString(), StringComparison.OrdinalIgnoreCase)))
             args.IsAllowed = false;
     }
 }
