@@ -1,10 +1,12 @@
 namespace ConfigurableTeslaGates;
 
-using System;
+using CommandSystem;
 using LabApi.Events.CustomHandlers;
 using LabApi.Features;
+using LabApi.Features.Wrappers;
 using LabApi.Loader.Features.Plugins;
 using LabApi.Loader.Features.Plugins.Enums;
+using System;
 
 public class Plugin : Plugin<Config>
 {
@@ -16,7 +18,7 @@ public class Plugin : Plugin<Config>
 
 	public override string Description { get; } = "Config options for Tesla Gates";
 
-	public override Version Version { get; } = new Version(1,2,1);
+	public override Version Version { get; } = new Version(1, 2, 2);
 
 	public override Version RequiredApiVersion { get; } = new Version(LabApiProperties.CompiledVersion);
 
@@ -26,20 +28,15 @@ public class Plugin : Plugin<Config>
 
 	public static string[] ImmunePlayers = Array.Empty<string>();
 
-    public override void Enable()
+	public override void Enable()
 	{
-		if (!Config.is_enabled)
-		{
-			Disable();
-			return;
-        }
-        Main = this;
-        CustomHandlersManager.RegisterEventsHandler(Events);
+		Main = this;
+		CustomHandlersManager.RegisterEventsHandler(Events);
     }
 
     public override void Disable()
 	{
 		Main = null;
 		CustomHandlersManager.UnregisterEventsHandler(Events);
-	}
+    }
 }

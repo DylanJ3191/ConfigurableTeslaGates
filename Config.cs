@@ -4,9 +4,6 @@ namespace ConfigurableTeslaGates;
 
 public class Config
 {
-    [Description("Is the plugin enabled? Default: true")]
-    public bool is_enabled { get; set; } = true;
-
     [Description("Are Tesla Gates enabled? Default: true")]
     public bool GatesEnabled { get; set; } = true;
 
