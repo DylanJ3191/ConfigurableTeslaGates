@@ -45,7 +45,7 @@ public class ImmunityCommand : ICommand
             // Given in-game ID
             if (!int.TryParse(args.At(0), out int targetId))
             {
-                response = "Invalid player ID. Use a number like: tgimmunity 14";
+                response = "Invalid player ID. Use a number like: tgi 14";
                 return false;
             }
 
