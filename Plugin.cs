@@ -16,7 +16,7 @@ public class Plugin : Plugin<Config>
 
 	public override string Description { get; } = "Config options for Tesla Gates";
 
-	public override Version Version { get; } = new Version(1,1,1);
+	public override Version Version { get; } = new Version(1,2,0);
 
 	public override Version RequiredApiVersion { get; } = new Version(LabApiProperties.CompiledVersion);
 
@@ -24,7 +24,9 @@ public class Plugin : Plugin<Config>
 
 	public EventHandlers Events { get; } = new();
 
-	public override void Enable()
+	public static string[] ImmunePlayers = Array.Empty<string>();
+
+    public override void Enable()
 	{
 		Main = this;
         CustomHandlersManager.RegisterEventsHandler(Events);
