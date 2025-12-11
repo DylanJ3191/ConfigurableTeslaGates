@@ -30,6 +30,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,6 +54,9 @@
     </Reference>
     <Reference Include="LabApi">
       <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\LabApi.dll</HintPath>
+    </Reference>
+    <Reference Include="CommandSystem.Core">
+      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\CommandSystem.Core.dll</HintPath>
     </Reference>
     <Reference Include="Mirror">
       <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\Mirror.dll</HintPath>
@@ -74,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Commands.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Plugin.cs" />

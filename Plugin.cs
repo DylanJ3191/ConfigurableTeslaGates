@@ -3,10 +3,12 @@ namespace ConfigurableTeslaGates;
 using CommandSystem;
 using LabApi.Events.CustomHandlers;
 using LabApi.Features;
+using LabApi.Features.Console;
 using LabApi.Features.Wrappers;
 using LabApi.Loader.Features.Plugins;
 using LabApi.Loader.Features.Plugins.Enums;
 using System;
+using System.Threading.Tasks;
 
 public class Plugin : Plugin<Config>
 {
@@ -18,7 +20,7 @@ public class Plugin : Plugin<Config>
 
 	public override string Description { get; } = "Config options for Tesla Gates";
 
-	public override Version Version { get; } = new Version(1, 2, 2);
+	public override Version Version { get; } = new Version(1, 2, 3);
 
 	public override Version RequiredApiVersion { get; } = new Version(LabApiProperties.CompiledVersion);
 
@@ -38,5 +40,10 @@ public class Plugin : Plugin<Config>
 	{
 		Main = null;
 		CustomHandlersManager.UnregisterEventsHandler(Events);
+    }
+
+	public void ReloadConfig()
+	{
+		LoadConfigs();
     }
 }

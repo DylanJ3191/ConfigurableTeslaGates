@@ -1,3 +1,4 @@
+using System.Resources;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -5,14 +6,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TeslaGateExperiments")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyTitle("ConfigurableTeslaGates")]
+[assembly: AssemblyDescription("Config options for Tesla Gates")]
+[assembly: AssemblyMetadata("RepositoryUrl", "https://github.com/DylanJ3191/ConfigurableTeslaGates")]
+[assembly: AssemblyConfiguration("Debug")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TeslaGateExperiments")]
-[assembly: AssemblyCopyright("Copyright ©  2025")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyProduct("ConfigurableTeslaGates")]
+[assembly: AssemblyCopyright("Copyright © 2025 DylanJ3191")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.2.3.0")]
+[assembly: AssemblyFileVersion("1.2.3")]
