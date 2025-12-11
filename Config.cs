@@ -15,4 +15,7 @@ public class Config
 
     [Description("Clear Tesla Gate immunity on round restart? Default: false")]
     public bool clearImmunityOnRestart { get; set; } = false;
+
+    [Description("Allow editing config from RA/LA?")]
+    public bool allowConfigEditing { get; set; } = true;
 }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿namespace ConfigurableTeslaGates.Commands;
 
 using System;
@@ -17,6 +16,12 @@ public class ImmunityCommand : ICommand
 
     public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
     {
+        if (!Plugin.Main.Config.tgiCommandEnabled)
+        {
+            response = "This command is disabled.";
+            return false;
+        }
+
         if (!sender.CheckPermission(PlayerPermissions.FacilityManagement))
         {
             response = "You do not have the permission required to use this command. (FacilityManagement)";
@@ -90,6 +95,7 @@ public class ConfigurableTeslaGatesParentCmd : ParentCommand
     {
         RegisterCommand(new ReloadConfig());
         RegisterCommand(new ClearImmunePlayers());
+        RegisterCommand(new GetConfig());
     }
     protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
@@ -144,6 +150,12 @@ public class ClearImmunePlayers : ICommand
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
+        if (!Plugin.Main.Config.tgiCommandEnabled)
+        {
+            response = "This command is disabled.";
+            return false;
+        }
+
         if (!sender.CheckPermission(PlayerPermissions.FacilityManagement))
         {
             response = "You do not have the permission required to use this command. (FacilityManagement)";
@@ -164,7 +176,7 @@ public class GetConfig : ICommand
 
     public string Description { get; } = "Displays the current configuration.";
 
-    public string[] Aliases { get; } = Array.Empty<string>();
+    public string[] Aliases { get; } = new[] { "cfg" };
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
@@ -178,88 +190,73 @@ public class GetConfig : ICommand
                    $"- GatesEnabled: {config.GatesEnabled}\n" +
                    $"- RoleList: {string.Join(" ", config.RoleList)}\n" +
                    $"- tgiCommandEnabled: {config.tgiCommandEnabled}\n" +
-                   $"- clearImmunityOnRestart: {config.clearImmunityOnRestart}";
+                   $"- clearImmunityOnRestart: {config.clearImmunityOnRestart}\n" +
+                   $"- allowConfigEditing: {config.allowConfigEditing}";
         return true;
     }
-=======
-﻿namespace ConfigurableTeslaGates.Commands;
-
-using System;
-using LabApi.Features.Wrappers;
-using CommandSystem;
+}
 
 [CommandHandler(typeof(RemoteAdminCommandHandler))]
-[CommandHandler(typeof(ClientCommandHandler))]
-public class ImmunityCommand : ICommand
+[CommandHandler(typeof(GameConsoleCommandHandler))]
+public class EditConfig : ICommand
 {
-    public string Command => "tgimmunity";
-    public string[] Aliases => new[] { "tgi", "teslagateimmunity", "donttriggertg" };
-    public string Description => "Toggles Tesla Gate immunity for yourself or another player.";
+    public string Command { get; } = "editcfg";
 
-    public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
+    public string Description { get; } = "Edits a configuration option. Usage: editcfg <option> <value>";
+
+    public string[] Aliases { get; } = Array.Empty<string>();
+
+    public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        // Config check
-        if (Plugin.Main.Config.tgiCommandEnabled == false)
+        if (!Plugin.Main.Config.allowConfigEditing)
         {
-            response = "This command is disabled.";
+            response = "Editing the config via command is disabled.";
             return false;
         }
-
-        if (!sender.CheckPermission(PlayerPermissions.FacilityManagement))
+        if (!sender.CheckPermission(PlayerPermissions.ServerConfigs) || !sender.CheckPermission(PlayerPermissions.ServerConsoleCommands))
         {
-            response = "You do not have permission to use this command.";
+            response = "You do not have the permission(s) required to use this command. (ServerConfigs, ServerConsoleCommands)";
             return false;
         }
-
-        Player target;
-
-        // No args → toggle on yourself
-        if (args.Count == 0)
+        if (arguments.Count < 2)
         {
-            target = Player.Get(sender);
-
-            if (target is null)
-            {
-                response = "This command can only be used by players.";
-                return false;
-            }
+            response = "Usage: editcfg <option> <value>\n Run cfg to get the list of options.";
+            return false;
         }
-        else
+        var option = arguments.At(0).ToLower();
+        var value = arguments.At(1);
+        try
         {
-            // Given in-game ID
-            if (!int.TryParse(args.At(0), out int targetId))
+            var config = Plugin.Main.Config;
+            switch (option)
             {
-                response = "Invalid player ID. Use a number like: tgi 14";
-                return false;
+                case "gatesenabled":
+                    config.GatesEnabled = bool.Parse(value);
+                    break;
+                case "rolelist":
+                    config.RoleList = value;
+                    break;
+                case "tgicommandenabled":
+                    config.tgiCommandEnabled = bool.Parse(value);
+                    break;
+                case "clearimmunityonrestart":
+                    config.clearImmunityOnRestart = bool.Parse(value);
+                    break;
+                case "allowconfigediting":
+                    config.allowConfigEditing = bool.Parse(value);
+                    break;
+                default:
+                    response = $"Unknown configuration option: {option}";
+                    return false;
             }
-
-            target = Player.Get(targetId);
-
-            if (target is null)
-            {
-                response = $"No player exists with ID {targetId}.";
-                return false;
-            }
-        }
-
-        var plr = target.UserId;
-
-        if (Array.Exists(Plugin.ImmunePlayers, element => element == plr))
-        {
-            Plugin.ImmunePlayers = Array.FindAll(Plugin.ImmunePlayers, element => element != plr);
-            response = (target == Player.Get(sender))
-                ? "You are no longer immune to triggering Tesla Gates."
-                : $"{target.Nickname} is no longer immune to triggering Tesla Gates.";
+            Plugin.Main.SaveConfig();
+            response = $"Configuration option '{option}' updated to '{value}'.";
             return true;
         }
-
-        Array.Resize(ref Plugin.ImmunePlayers, Plugin.ImmunePlayers.Length + 1);
-        Plugin.ImmunePlayers[^1] = plr;
-
-        response = (target == Player.Get(sender))
-            ? "You are now immune to triggering Tesla Gates."
-            : $"{target.Nickname} is now immune to triggering Tesla Gates.";
-        return true;
+        catch (Exception ex)
+        {
+            response = $"Error updating configuration: {ex.Message}";
+            return false;
+        }
     }
->>>>>>> refs/remotes/GitHub/main
 }
