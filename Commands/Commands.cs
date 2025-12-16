@@ -80,7 +80,6 @@ public class ImmunityCommand : ICommand
     }
 }
 
-[CommandHandler(typeof(ClientCommandHandler))]
 [CommandHandler(typeof(RemoteAdminCommandHandler))]
 [CommandHandler(typeof(GameConsoleCommandHandler))]
 public class ConfigurableTeslaGatesParentCmd : ParentCommand
@@ -104,8 +103,7 @@ public class ConfigurableTeslaGatesParentCmd : ParentCommand
     }
 }
 
-[CommandHandler(typeof(RemoteAdminCommandHandler))]
-[CommandHandler(typeof(GameConsoleCommandHandler))]
+[CommandHandler(typeof(ConfigurableTeslaGatesParentCmd))]
 public class ReloadConfig : ICommand
 {
     public string Command { get; } = "reloadcfg";
@@ -168,8 +166,7 @@ public class ClearImmunePlayers : ICommand
     }
 }
 
-[CommandHandler(typeof(RemoteAdminCommandHandler))]
-[CommandHandler(typeof(GameConsoleCommandHandler))]
+[CommandHandler(typeof(ConfigurableTeslaGatesParentCmd))]
 public class GetConfig : ICommand
 {
     public string Command { get; } = "getcfg";
@@ -196,8 +193,7 @@ public class GetConfig : ICommand
     }
 }
 
-[CommandHandler(typeof(RemoteAdminCommandHandler))]
-[CommandHandler(typeof(GameConsoleCommandHandler))]
+[CommandHandler(typeof(ConfigurableTeslaGatesParentCmd))]
 public class EditConfig : ICommand
 {
     public string Command { get; } = "editcfg";
