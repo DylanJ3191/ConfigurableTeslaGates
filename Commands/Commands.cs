@@ -201,7 +201,7 @@ public class EditConfig : ICommand
 
     public string Description { get; } = "Edits a configuration option. Usage: editcfg <option> <value>";
 
-    public string[] Aliases { get; } = Array.Empty<string>();
+    public string[] Aliases { get; } = new[] { "editconfig" };
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
