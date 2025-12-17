@@ -1,6 +1,7 @@
 ﻿namespace ConfigurableTeslaGates.Commands;
 
 using System;
+using System.Linq;
 using LabApi.Features.Wrappers;
 using LabApi.Features.Console;
 using CommandSystem;
@@ -98,7 +99,7 @@ public class ConfigurableTeslaGatesParentCmd : ParentCommand
     }
     protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        response = "Valid subcommands:\n - reloadcfg\n - clearimmuneplayers";
+        response = "Valid subcommands:\n - reloadcfg\n - clearimmuneplayers\n - getcfg\n - editcfg";
         return false;
     }
 }
@@ -216,11 +217,28 @@ public class EditConfig : ICommand
         }
         if (arguments.Count < 2)
         {
-            response = "Usage: editcfg <option> <value>\n Run cfg to get the list of options.";
+            response = "Usage: editcfg <option> <value>\n Run \"ctg cfg\" to get the list of options.";
             return false;
         }
         var option = arguments.At(0).ToLower();
-        var value = arguments.At(1);
+        // For rolelist allow the value to contain spaces by joining all remaining arguments.
+        string value;
+        if (option == "rolelist")
+        {
+            if (arguments.Count < 2)
+            {
+                response = "Usage: ctg editcfg rolelist <roles...> \n Warning: Config is CASE SENSITIVE!";
+                return false;
+            }
+            var parts = new string[arguments.Count - 1];
+            for (int i = 1; i < arguments.Count; i++)
+                parts[i - 1] = arguments.At(i);
+            value = string.Join(' ', parts);
+        }
+        else
+        {
+            value = arguments.At(1);
+        }
         try
         {
             var config = Plugin.Main.Config;
