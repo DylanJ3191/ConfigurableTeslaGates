@@ -14,12 +14,16 @@ You can toggle whether or not certain roles will trigger the Tesla Gates. Tutori
 
 ### Player-specific immunities
 tgimmunity command
+
 clearimmuneplayers command
 
 ### Config commands
 **These commands work in RemoteAdmin and LocalAdmin(server console). All commands are under the `ctg` parent command.**
+
 reloadcfg - Reloads the config file
+
 cfg - Displays the current config
+
 editcfg - Edit the config (saves and applies immediately)
 
 More features on the way!
