@@ -11,11 +11,11 @@ public class Config
     public string RoleList { get; set; } = "Tutorial NtfPrivate NtfSpecialist NtfSergeant NtfCaptain";
 
     [Description("Enable the tgimmunity command? Default: true")]
-    public bool tgiCommandEnabled { get; set; } = true;
+    public bool TgiCommandEnabled { get; internal set; } = true;
 
     [Description("Clear Tesla Gate immunity on round restart? Default: false")]
-    public bool clearImmunityOnRestart { get; set; } = false;
+    public bool ClearImmunityOnRestart { get; set; } = false;
 
     [Description("Allow editing config from RA/LA?")]
-    public bool allowConfigEditing { get; set; } = true;
+    public bool AllowConfigEditing { get; set; } = true;
 }

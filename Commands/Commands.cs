@@ -17,7 +17,7 @@ public class ImmunityCommand : ICommand
 
     public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
     {
-        if (!Plugin.Main.Config.tgiCommandEnabled)
+        if (!Plugin.Main.Config.TgiCommandEnabled)
         {
             response = "This command is disabled.";
             return false;
@@ -149,7 +149,7 @@ public class ClearImmunePlayers : ICommand
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        if (!Plugin.Main.Config.tgiCommandEnabled)
+        if (!Plugin.Main.Config.TgiCommandEnabled)
         {
             response = "This command is disabled.";
             return false;
@@ -183,13 +183,20 @@ public class GetConfig : ICommand
             response = "You do not have the permission required to use this command. (ServerConfigs)";
             return false;
         }
+
+        if (Plugin.Main.Config is null)
+        {
+            Logger.Error("Config not found.");
+            response = "Config not found.";
+            return false;
+        }
         var config = Plugin.Main.Config;
         response = $"Current config for Configurable Tesla Gates:\n" +
                    $"- GatesEnabled: {config.GatesEnabled}\n" +
                    $"- RoleList: {string.Join(" ", config.RoleList)}\n" +
-                   $"- tgiCommandEnabled: {config.tgiCommandEnabled}\n" +
-                   $"- clearImmunityOnRestart: {config.clearImmunityOnRestart}\n" +
-                   $"- allowConfigEditing: {config.allowConfigEditing}";
+                   $"- tgiCommandEnabled: {config.TgiCommandEnabled}\n" +
+                   $"- clearImmunityOnRestart: {config.ClearImmunityOnRestart}\n" +
+                   $"- allowConfigEditing: {config.AllowConfigEditing}";
         return true;
     }
 }
@@ -205,7 +212,7 @@ public class EditConfig : ICommand
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        if (!Plugin.Main.Config.allowConfigEditing)
+        if (!Plugin.Main.Config.AllowConfigEditing)
         {
             response = "Editing the config via command is disabled.";
             return false;
@@ -240,7 +247,13 @@ public class EditConfig : ICommand
             value = arguments.At(1);
         }
         try
-        {
+        {  
+            if (Plugin.Main.Config is null)
+            {
+                Logger.Error("Config not found.");
+                response = "Config not found.";
+                return false;
+            }
             var config = Plugin.Main.Config;
             switch (option)
             {
@@ -251,13 +264,13 @@ public class EditConfig : ICommand
                     config.RoleList = value;
                     break;
                 case "tgicommandenabled":
-                    config.tgiCommandEnabled = bool.Parse(value);
+                    config.TgiCommandEnabled = bool.Parse(value);
                     break;
                 case "clearimmunityonrestart":
-                    config.clearImmunityOnRestart = bool.Parse(value);
+                    config.ClearImmunityOnRestart = bool.Parse(value);
                     break;
                 case "allowconfigediting":
-                    config.allowConfigEditing = bool.Parse(value);
+                    config.AllowConfigEditing = bool.Parse(value);
                     break;
                 default:
                     response = $"Unknown configuration option: {option}";

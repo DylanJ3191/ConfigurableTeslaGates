@@ -26,7 +26,7 @@ public class Plugin : Plugin<Config>
 
 	public override LoadPriority Priority { get; } = LoadPriority.High;
 
-	public EventHandlers Events { get; } = new();
+	private EventHandlers Events { get; } = new();
 
 	public static string[] ImmunePlayers = Array.Empty<string>();
 

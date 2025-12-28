@@ -55,7 +55,7 @@ public class EventHandlers : CustomEventsHandler
         if (Plugin.Main.Config is null)
             return;
 
-        if (Plugin.Main.Config.clearImmunityOnRestart)
+        if (Plugin.Main.Config.ClearImmunityOnRestart)
         {
             Plugin.ImmunePlayers = Array.Empty<string>();
         }
