@@ -33,7 +33,7 @@ public class EventHandlers : CustomEventsHandler
         if (Plugin.Main.Config is null)
             return;
 
-        if (Plugin.Main.Config.GatesEnabled == false)
+        if (!Plugin.Main.Config.GatesEnabled)
         {
             args.IsAllowed = false;
             return;

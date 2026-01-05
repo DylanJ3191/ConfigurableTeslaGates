@@ -149,6 +149,12 @@ public class ClearImmunePlayers : ICommand
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
+        if (Plugin.Main.Config is null)
+        {
+            response = "Config not found.";
+            return false;
+        }
+        
         if (!Plugin.Main.Config.TgiCommandEnabled)
         {
             response = "This command is disabled.";
@@ -212,6 +218,13 @@ public class EditConfig : ICommand
 
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
+        if (Plugin.Main.Config is null)
+        {
+            Logger.Error("Config not found.");
+            response = "Config not found.";
+            return false;
+        }
+        
         if (!Plugin.Main.Config.AllowConfigEditing)
         {
             response = "Editing the config via command is disabled.";

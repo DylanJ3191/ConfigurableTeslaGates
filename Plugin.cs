@@ -1,18 +1,14 @@
 namespace ConfigurableTeslaGates;
 
-using CommandSystem;
 using LabApi.Events.CustomHandlers;
 using LabApi.Features;
-using LabApi.Features.Console;
-using LabApi.Features.Wrappers;
 using LabApi.Loader.Features.Plugins;
 using LabApi.Loader.Features.Plugins.Enums;
 using System;
-using System.Threading.Tasks;
 
 public class Plugin : Plugin<Config>
 {
-	public static Plugin Main { get; set; } = null;
+	public static Plugin Main { get; private set; } = null;
 
 	public override string Name { get; } = "Configurable Tesla Gates";
 
@@ -20,7 +16,7 @@ public class Plugin : Plugin<Config>
 
 	public override string Description { get; } = "Config options for Tesla Gates";
 
-	public override Version Version { get; } = new Version(2, 0, 0);
+	public override Version Version { get; } = new Version(2, 0, 1);
 
 	public override Version RequiredApiVersion { get; } = new Version(LabApiProperties.CompiledVersion);
 
