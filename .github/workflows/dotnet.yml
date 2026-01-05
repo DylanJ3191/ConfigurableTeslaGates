@@ -1,0 +1,52 @@
+name: .NET Framework
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # Ensure nuget CLI is available
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1
+
+    # Restore packages for the first *.sln found (change path if you have multiple)
+    - name: Restore NuGet packages
+      shell: pwsh
+      run: |
+        $sln = Get-ChildItem -Path . -Filter *.sln -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+        if (-not $sln) { throw 'Solution file not found. Update workflow with your .sln path.' }
+        Write-Host "Restoring $($sln.FullName)"
+        nuget restore $sln.FullName
+
+    # Make MSBuild available on PATH
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    # Build the solution with MSBuild (targets .NET Framework 4.8 projects)
+    - name: Build solution
+      shell: pwsh
+      run: |
+        $sln = Get-ChildItem -Path . -Filter *.sln -Recurse | Select-Object -First 1
+        msbuild $sln.FullName /m /p:Configuration=Release
+
+    # Run tests with vstest.console (searches for *Tests.dll under bin\Release)
+    - name: Run tests
+      shell: pwsh
+      run: |
+        $testDlls = Get-ChildItem -Path . -Include *Tests.dll -Recurse -ErrorAction SilentlyContinue | Where-Object { $_.FullName -like '*\bin\Release\*' }
+        if ($testDlls.Count -eq 0) {
+          Write-Host "No test assemblies found in bin\\Release. Adjust pattern or build config if needed."
+          exit 0
+        }
+        foreach ($dll in $testDlls) {
+          Write-Host "Running $($dll.FullName)"
+          vstest.console.exe $dll.FullName
+        }
