@@ -11,21 +11,42 @@ public class EventHandlers : CustomEventsHandler
         if (Plugin.Main.Config is null)
             return;
 
-        if (Plugin.Main.Config.GatesEnabled == false)
+        if (Plugin.Main.Config.AprilFoolsModeEnabled == true)
         {
-            args.IsAllowed = false;
-            return;
-        }
+            if (Array.Exists(Plugin.ImmunePlayers, element => element == args.Player.UserId))
+            {
+                args.IsAllowed = true;
+                return;
+            }
 
-        if (Array.Exists(Plugin.ImmunePlayers, element => element == args.Player.UserId))
+            var immuneRoles = Plugin.Main.Config.RoleList.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (Array.Exists(immuneRoles, r => r.Equals(args.Player.Role.ToString(), StringComparison.OrdinalIgnoreCase)))
+            {
+                args.IsAllowed = true;
+                return;
+            }
+            
+            if (Plugin.Main.Config.GatesEnabled == false) 
+                args.IsAllowed = true;
+        }
+        else
         {
-            args.IsAllowed = false;
-            return;
-        }
+            if (Plugin.Main.Config.GatesEnabled == false)
+            {
+                args.IsAllowed = false;
+                return;
+            }
 
-        var immuneRoles = Plugin.Main.Config.RoleList.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (Array.Exists(immuneRoles, r => r.Equals(args.Player.Role.ToString(), StringComparison.OrdinalIgnoreCase)))
-            args.IsAllowed = false;
+            if (Array.Exists(Plugin.ImmunePlayers, element => element == args.Player.UserId))
+            {
+                args.IsAllowed = false;
+                return;
+            }
+
+            var immuneRoles = Plugin.Main.Config.RoleList.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (Array.Exists(immuneRoles, r => r.Equals(args.Player.Role.ToString(), StringComparison.OrdinalIgnoreCase)))
+                args.IsAllowed = false;
+        }
     }
 
     public override void OnPlayerTriggeringTesla(PlayerTriggeringTeslaEventArgs args)
@@ -33,21 +54,42 @@ public class EventHandlers : CustomEventsHandler
         if (Plugin.Main.Config is null)
             return;
 
-        if (!Plugin.Main.Config.GatesEnabled)
+        if (Plugin.Main.Config.AprilFoolsModeEnabled == true)
         {
-            args.IsAllowed = false;
-            return;
-        }
+            if (Array.Exists(Plugin.ImmunePlayers, element => element == args.Player.UserId))
+            {
+                args.IsAllowed = true;
+                return;
+            }
 
-        if (Array.Exists(Plugin.ImmunePlayers, element => element == args.Player.UserId))
+            var immuneRoles = Plugin.Main.Config.RoleList.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (Array.Exists(immuneRoles, r => r.Equals(args.Player.Role.ToString(), StringComparison.OrdinalIgnoreCase)))
+            {
+                args.IsAllowed = true;
+                return;
+            }
+            
+            if (!Plugin.Main.Config.GatesEnabled)
+                args.IsAllowed = true;
+        }
+        else
         {
-            args.IsAllowed = false;
-            return;
-        }
+            if (!Plugin.Main.Config.GatesEnabled)
+            {
+                args.IsAllowed = false;
+                return;
+            }
 
-        var immuneRoles = Plugin.Main.Config.RoleList.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (Array.Exists(immuneRoles, r => r.Equals(args.Player.Role.ToString(), StringComparison.OrdinalIgnoreCase)))
-            args.IsAllowed = false;
+            if (Array.Exists(Plugin.ImmunePlayers, element => element == args.Player.UserId))
+            {
+                args.IsAllowed = false;
+                return;
+            }
+
+            var immuneRoles = Plugin.Main.Config.RoleList.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (Array.Exists(immuneRoles, r => r.Equals(args.Player.Role.ToString(), StringComparison.OrdinalIgnoreCase)))
+                args.IsAllowed = false;
+        }
     }
 
     public override void OnServerWaitingForPlayers()

@@ -202,7 +202,8 @@ public class GetConfig : ICommand
                    $"- RoleList: {string.Join(" ", config.RoleList)}\n" +
                    $"- tgiCommandEnabled: {config.TgiCommandEnabled}\n" +
                    $"- clearImmunityOnRestart: {config.ClearImmunityOnRestart}\n" +
-                   $"- allowConfigEditing: {config.AllowConfigEditing}";
+                   $"- allowConfigEditing: {config.AllowConfigEditing}\n" +
+                   $"- AprilFoolsModeEnabled: {config.AprilFoolsModeEnabled}";
         return true;
     }
 }
@@ -284,6 +285,9 @@ public class EditConfig : ICommand
                     break;
                 case "allowconfigediting":
                     config.AllowConfigEditing = bool.Parse(value);
+                    break;
+                case "aprilfoolsmodeenabled":
+                    config.AprilFoolsModeEnabled = bool.Parse(value);
                     break;
                 default:
                     response = $"Unknown configuration option: {option}";

@@ -1,3 +1,5 @@
+using LabApi.Features.Console;
+
 namespace ConfigurableTeslaGates;
 
 using LabApi.Events.CustomHandlers;
@@ -29,6 +31,8 @@ public class Plugin : Plugin<Config>
 	public override void Enable()
 	{
 		Main = this;
+		if (this.Config.AprilFoolsModeEnabled == true)
+			Logger.Debug("ConfigurableTeslaGates - April Fools mode is enabled.");
 		CustomHandlersManager.RegisterEventsHandler(Events);
     }
 

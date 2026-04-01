@@ -50,37 +50,37 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\Assembly-CSharp.dll</HintPath>
+      <HintPath>D:\Downloads\SCPSL Lab-API Dependencies\Dependencies\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>D:\Downloads\SCPSL Lab-API Dependencies\Dependencies\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="LabApi">
-      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\LabApi.dll</HintPath>
+      <HintPath>D:\Downloads\SCPSL Lab-API Dependencies\Dependencies\LabApi.dll</HintPath>
     </Reference>
     <Reference Include="CommandSystem.Core">
-      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\CommandSystem.Core.dll</HintPath>
+      <HintPath>D:\Downloads\SCPSL Lab-API Dependencies\Dependencies\CommandSystem.Core.dll</HintPath>
     </Reference>
     <Reference Include="Mirror">
-      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\Mirror.dll</HintPath>
+      <HintPath>D:\Downloads\SCPSL Lab-API Dependencies\Dependencies\Mirror.dll</HintPath>
     </Reference>
     <Reference Include="Pooling">
-      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\Pooling.dll</HintPath>
+      <HintPath>D:\Downloads\SCPSL Lab-API Dependencies\Dependencies\Pooling.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\UnityEngine.dll</HintPath>
+      <HintPath>D:\Downloads\SCPSL Lab-API Dependencies\Dependencies\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>D:\Downloads\SCPSL Lab-API Dependencies\Dependencies\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>D:\Downloads\SCPSL Lab-API Dependencies\Dependencies\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
-      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\mscorlib.dll</HintPath>
+      <HintPath>D:\Downloads\SCPSL Lab-API Dependencies\Dependencies\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="NorthwoodLib">
-      <HintPath>C:\Users\dylan\Downloads\SCPSL Lab-API Dependencies\Dependencies\NorthwoodLib.dll</HintPath>
+      <HintPath>D:\Downloads\SCPSL Lab-API Dependencies\Dependencies\NorthwoodLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
