@@ -26,8 +26,13 @@ public class EventHandlers : CustomEventsHandler
                 return;
             }
             
-            if (Plugin.Main.Config.GatesEnabled == false) 
+            if (Plugin.Main.Config.GatesEnabled == false)
+            {
                 args.IsAllowed = true;
+                return;
+            }
+
+            args.IsAllowed = false;
         }
         else
         {
@@ -70,7 +75,12 @@ public class EventHandlers : CustomEventsHandler
             }
             
             if (!Plugin.Main.Config.GatesEnabled)
+            {
                 args.IsAllowed = true;
+                return;
+            }
+            
+            args.IsAllowed = false;
         }
         else
         {
