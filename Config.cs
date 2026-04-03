@@ -5,7 +5,7 @@ namespace ConfigurableTeslaGates;
 public class Config
 {
     [Description("Is April fools mode enabled? (Inverts behavior)  Default: false\n# Ex: Player in immune list: Gate fires. Player not in list & doesn't have immune role: Gate doesn't fire.")]
-    public bool AprilFoolsModeEnabled { get; set; } = true;
+    public bool AprilFoolsModeEnabled { get; set; } = false;
     
     [Description("Are Tesla Gates enabled? Default: true")]
     public bool GatesEnabled { get; set; } = true;
