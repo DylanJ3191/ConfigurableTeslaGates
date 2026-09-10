@@ -30,4 +30,4 @@ editcfg - Edit the config (saves and applies immediately)
 
 resetconfig - Resets the config to default values
 
-More features on the way!
+More features on the way... Probably...
