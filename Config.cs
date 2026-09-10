@@ -20,5 +20,8 @@ public class Config
     public bool ClearImmunityOnRestart { get; set; } = false;
 
     [Description("Allow editing config from RA/LA?")]
-    public bool AllowConfigEditing { get; set; } = true;
+    public bool AllowConfigEditing { get; internal set; } = true;
+    
+    [Description("DANGEROUS: \n# Reset config (WIP)")]
+    public bool ResetConfig { get; internal set; } = false;
 }

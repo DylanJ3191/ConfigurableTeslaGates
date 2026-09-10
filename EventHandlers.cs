@@ -2,6 +2,8 @@
 using LabApi.Events.Arguments.PlayerEvents;
 using LabApi.Events.CustomHandlers;
 
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
+
 namespace ConfigurableTeslaGates;
 
 public class EventHandlers : CustomEventsHandler
@@ -9,9 +11,9 @@ public class EventHandlers : CustomEventsHandler
     public override void OnPlayerIdlingTesla(PlayerIdlingTeslaEventArgs args)
     {
         if (Plugin.Main.Config is null)
-            return;
+            throw new NullReferenceException("Couldn't find config");
 
-        if (Plugin.Main.Config.AprilFoolsModeEnabled == true)
+        if (Plugin.Main.Config.AprilFoolsModeEnabled)
         {
             if (Array.Exists(Plugin.ImmunePlayers, element => element == args.Player.UserId))
             {
@@ -26,7 +28,7 @@ public class EventHandlers : CustomEventsHandler
                 return;
             }
             
-            if (Plugin.Main.Config.GatesEnabled == false)
+            if (!Plugin.Main.Config.GatesEnabled)
             {
                 args.IsAllowed = true;
                 return;
@@ -36,7 +38,7 @@ public class EventHandlers : CustomEventsHandler
         }
         else
         {
-            if (Plugin.Main.Config.GatesEnabled == false)
+            if (!Plugin.Main.Config.GatesEnabled)
             {
                 args.IsAllowed = false;
                 return;
@@ -57,7 +59,7 @@ public class EventHandlers : CustomEventsHandler
     public override void OnPlayerTriggeringTesla(PlayerTriggeringTeslaEventArgs args)
     {
         if (Plugin.Main.Config is null)
-            return;
+            throw new NullReferenceException("Couldn't find config");
 
         if (Plugin.Main.Config.AprilFoolsModeEnabled == true)
         {
@@ -105,7 +107,7 @@ public class EventHandlers : CustomEventsHandler
     public override void OnServerWaitingForPlayers()
     {
         if (Plugin.Main.Config is null)
-            return;
+            throw new NullReferenceException("Couldn't find config");
 
         if (Plugin.Main.Config.ClearImmunityOnRestart)
         {

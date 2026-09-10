@@ -1,14 +1,16 @@
-﻿namespace ConfigurableTeslaGates.Commands;
+﻿using JetBrains.Annotations;
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
+
+namespace ConfigurableTeslaGates.Commands;
 
 using System;
-using System.Linq;
 using LabApi.Features.Wrappers;
 using LabApi.Features.Console;
 using CommandSystem;
-using NorthwoodLib.Pools;
 
 [CommandHandler(typeof(ClientCommandHandler))]
 [CommandHandler(typeof(RemoteAdminCommandHandler))]
+[UsedImplicitly]
 public class ImmunityCommand : ICommand
 {
     public string Command => "tgimmunity";
@@ -96,6 +98,7 @@ public class ConfigurableTeslaGatesParentCmd : ParentCommand
         RegisterCommand(new ReloadConfig());
         RegisterCommand(new ClearImmunePlayers());
         RegisterCommand(new GetConfig());
+        RegisterCommand(new Admin());
     }
     protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
@@ -151,8 +154,7 @@ public class ClearImmunePlayers : ICommand
     {
         if (Plugin.Main.Config is null)
         {
-            response = "Config not found.";
-            return false;
+            throw new System.NullReferenceException("Couldn't find config");
         }
         
         if (!Plugin.Main.Config.TgiCommandEnabled)
@@ -192,9 +194,7 @@ public class GetConfig : ICommand
 
         if (Plugin.Main.Config is null)
         {
-            Logger.Error("Config not found.");
-            response = "Config not found.";
-            return false;
+            throw new System.NullReferenceException("Couldn't find config");
         }
         var config = Plugin.Main.Config;
         response = $"Current config for Configurable Tesla Gates:\n" +
@@ -209,6 +209,7 @@ public class GetConfig : ICommand
 }
 
 [CommandHandler(typeof(ConfigurableTeslaGatesParentCmd))]
+[UsedImplicitly]
 public class EditConfig : ICommand
 {
     public string Command { get; } = "editcfg";
@@ -221,9 +222,7 @@ public class EditConfig : ICommand
     {
         if (Plugin.Main.Config is null)
         {
-            Logger.Error("Config not found.");
-            response = "Config not found.";
-            return false;
+            throw new System.NullReferenceException("Couldn't find config");
         }
         
         if (!Plugin.Main.Config.AllowConfigEditing)
@@ -264,9 +263,7 @@ public class EditConfig : ICommand
         {  
             if (Plugin.Main.Config is null)
             {
-                Logger.Error("Config not found.");
-                response = "Config not found.";
-                return false;
+                throw new System.NullReferenceException("Couldn't find config");
             }
             var config = Plugin.Main.Config;
             switch (option)
@@ -288,7 +285,10 @@ public class EditConfig : ICommand
                     break;
                 case "aprilfoolsmodeenabled":
                     config.AprilFoolsModeEnabled = bool.Parse(value);
-                    break;
+                    break; 
+                case "resetconfig":
+                    response = "You cannot modify this config value using commands due to its dangerous nature.";
+                    return false;
                 default:
                     response = $"Unknown configuration option: {option}";
                     return false;
@@ -302,5 +302,46 @@ public class EditConfig : ICommand
             response = $"Error updating configuration: {ex.Message}";
             return false;
         }
+    }
+}
+
+[CommandHandler(typeof(ConfigurableTeslaGatesParentCmd))]
+[UsedImplicitly]
+public class Admin : ICommand
+{
+    public string Command { get; } = "admin";
+
+    public string Description { get; } = "Administrative functions";
+
+    public string[] Aliases { get; } = Array.Empty<string>();
+
+    public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+    {
+        if (Plugin.Main.Config is null)
+            throw new NullReferenceException("Can't find config.");
+
+        if (!sender.CheckPermission(PlayerPermissions.ServerConfigs) || !sender.CheckPermission(PlayerPermissions.ServerConsoleCommands) || !sender.CheckPermission(PlayerPermissions.ServerConsoleCommands))
+        {
+            response = "You do not have the permission(s) required to use this command. (ServerConfigs, ServerConsoleCommands, FacilityManagement)";
+            return false;
+        }
+
+        if (arguments.Count < 1)
+        {
+            response = "Please provide an option";
+            return false;
+        }
+
+        var option = arguments.ToString();
+
+        if (option == "resetconfig")
+        {
+            Plugin.Main.ResetConfig();
+            response = "Config reset.";
+            return true;
+        }
+
+        response = "Unknown sub command.";
+        return false;
     }
 }
