@@ -27,6 +27,7 @@ cfg - Displays the current config
 editcfg - Edit the config (saves and applies immediately)
 
 **The following command is under `ctg admin`.**
+
 resetconfig - Resets the config to default values
 
 More features on the way!
